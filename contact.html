@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel Audu | Contact</title>
+<meta name="description" content="Contact Samuel Audu.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar__brand">SAMUEL<span>AUDU</span></div>
+  <div class="navbar__links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="planner.html">Planner</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Open navigation">☰</button>
+</nav>
+
+<div class="page-hero">
+  <span class="section-label">Contact</span>
+  <h1>I'd Love to Hear From You</h1>
+  <p>Have a question about my work or want to collaborate? Send a message below.</p>
+</div>
+
+<div class="page-section">
+  <div class="contact-layout">
+
+    <form class="contact-form" id="contactForm" novalidate>
+      <div class="success-banner" id="successBanner">✓ Message validated and ready to send. Thank you, we'll respond soon.</div>
+
+      <div class="form-group" id="group-name">
+        <label class="field-label" for="name">Full name</label>
+        <input type="text" id="name" name="name" placeholder="Your full name">
+        <span class="error-msg" id="error-name"></span>
+      </div>
+
+      <div class="form-group" id="group-email">
+        <label class="field-label" for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com">
+        <span class="error-msg" id="error-email"></span>
+      </div>
+
+      <div class="form-group" id="group-phone">
+        <label class="field-label" for="phone">Phone number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Digits only, e.g. 08012345678">
+        <span class="error-msg" id="error-phone"></span>
+      </div>
+
+      <div class="form-group" id="group-message">
+        <label class="field-label" for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Write your message..."></textarea>
+        <span class="error-msg" id="error-message"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="justify-content:center;">Submit</button>
+    </form>
+
+    <div class="contact-info-card">
+      <h2 class="resume-block__heading"><span class="icon">◈</span> Direct Contact</h2>
+      <div class="contact-info-row">
+        <span class="label">Email</span>
+        <span class="value"><a href="mailto:s.audu0700@miva.edu.ng">s.audu0700@miva.edu.ng</a></span>
+      </div>
+      <div class="contact-info-row">
+        <span class="label">GitHub</span>
+        <span class="value"><a href="https://github.com/saudu0700-spec" target="_blank" rel="noopener">github.com/saudu0700-spec</a></span>
+      </div>
+      <div class="contact-info-row">
+        <span class="label">School</span>
+        <span class="value">Miva Open University</span>
+      </div>
+      <div class="contact-info-row">
+        <span class="label">Programme</span>
+        <span class="value">B.Sc. Cybersecurity, 200 Level</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span>© 2026 Samuel Audu. All rights reserved.</span>
+  <div class="footer-socials">
+    <a href="mailto:s.audu0700@miva.edu.ng" aria-label="Email">✉</a>
+    <a href="https://github.com/saudu0700-spec" target="_blank" rel="noopener" aria-label="GitHub">⌥</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
