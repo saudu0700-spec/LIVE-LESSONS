@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel Audu | Academic Planner</title>
+<meta name="description" content="Interactive academic task planner for Samuel Audu.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar__brand">SAMUEL<span>AUDU</span></div>
+  <div class="navbar__links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="planner.html" class="active">Planner</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Open navigation">☰</button>
+</nav>
+
+<div class="page-hero">
+  <span class="section-label">Planner</span>
+  <h1>Academic Planner</h1>
+  <p>Add assignments and study tasks, mark them complete, and clear them out once done. Everything here runs locally in your browser tab.</p>
+</div>
+
+<div class="page-section">
+  <div class="planner-layout">
+
+    <form class="task-form" id="taskForm">
+      <div>
+        <label class="field-label" for="taskInput">Task</label>
+        <input type="text" id="taskInput" placeholder="e.g. Read Chapter 4 — Network Security" required>
+      </div>
+      <div>
+        <label class="field-label" for="taskDue">Due date (optional)</label>
+        <input type="date" id="taskDue">
+      </div>
+      <div>
+        <label class="field-label" for="taskPriority">Priority</label>
+        <select id="taskPriority">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="justify-content:center;">Add task</button>
+    </form>
+
+    <div>
+      <div class="task-stats" id="taskStats">
+        <span><strong id="statTotal">0</strong> total</span>
+        <span><strong id="statDone">0</strong> completed</span>
+        <span><strong id="statPending">0</strong> pending</span>
+      </div>
+      <div class="task-list" id="taskList">
+        <div class="empty-state" id="emptyState">No tasks yet — add your first one on the left.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span>© 2026 Samuel Audu. All rights reserved.</span>
+  <div class="footer-socials">
+    <a href="mailto:s.audu0700@miva.edu.ng" aria-label="Email">✉</a>
+    <a href="https://github.com/saudu0700-spec" target="_blank" rel="noopener" aria-label="GitHub">⌥</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
