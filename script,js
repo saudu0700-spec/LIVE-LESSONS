@@ -1,0 +1,227 @@
+/* =========================================================
+   Samuel Audu — Academic Portfolio
+   script.js — navigation, planner, and contact validation
+   ========================================================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+  initMobileNav();
+  initPlanner();
+  initContactForm();
+});
+
+/* ---------------------------------------------------------
+   Mobile nav toggle
+   --------------------------------------------------------- */
+function initMobileNav() {
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (!navToggle || !navLinks) return;
+
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+}
+
+/* ---------------------------------------------------------
+   Academic Planner: add / toggle complete / delete tasks
+   --------------------------------------------------------- */
+function initPlanner() {
+  const form = document.getElementById('taskForm');
+  if (!form) return;
+
+  const input = document.getElementById('taskInput');
+  const dueInput = document.getElementById('taskDue');
+  const priorityInput = document.getElementById('taskPriority');
+  const list = document.getElementById('taskList');
+  const emptyState = document.getElementById('emptyState');
+  const statTotal = document.getElementById('statTotal');
+  const statDone = document.getElementById('statDone');
+  const statPending = document.getElementById('statPending');
+
+  let tasks = [];
+  let nextId = 1;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+
+    tasks.push({
+      id: nextId++,
+      text,
+      due: dueInput.value,
+      priority: priorityInput.value,
+      done: false
+    });
+
+    input.value = '';
+    dueInput.value = '';
+    priorityInput.value = 'medium';
+    input.focus();
+    render();
+  });
+
+  function toggleTask(id) {
+    tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+    render();
+  }
+
+  function deleteTask(id) {
+    tasks = tasks.filter(t => t.id !== id);
+    render();
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d)) return null;
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function render() {
+    list.innerHTML = '';
+
+    if (tasks.length === 0) {
+      emptyState.style.display = 'block';
+      list.appendChild(emptyState);
+    } else {
+      emptyState.style.display = 'none';
+
+      tasks.forEach(task => {
+        const item = document.createElement('div');
+        item.className = 'task-item' + (task.done ? ' done' : '');
+
+        const check = document.createElement('button');
+        check.className = 'task-item__check';
+        check.type = 'button';
+        check.setAttribute('aria-label', task.done ? 'Mark as not done' : 'Mark as done');
+        check.textContent = task.done ? '✓' : '';
+        check.addEventListener('click', () => toggleTask(task.id));
+
+        const body = document.createElement('div');
+        body.className = 'task-item__body';
+
+        const textEl = document.createElement('div');
+        textEl.className = 'task-item__text';
+
+        const badge = document.createElement('span');
+        badge.className = 'priority-badge priority-' + task.priority;
+        badge.textContent = task.priority;
+        textEl.appendChild(badge);
+        textEl.appendChild(document.createTextNode(task.text));
+
+        const metaEl = document.createElement('div');
+        metaEl.className = 'task-item__meta';
+        const dateLabel = formatDate(task.due);
+        metaEl.textContent = dateLabel ? 'Due ' + dateLabel : 'No due date';
+
+        body.appendChild(textEl);
+        body.appendChild(metaEl);
+
+        const del = document.createElement('button');
+        del.className = 'task-item__delete';
+        del.type = 'button';
+        del.setAttribute('aria-label', 'Delete task');
+        del.textContent = '✕';
+        del.addEventListener('click', () => deleteTask(task.id));
+
+        item.appendChild(check);
+        item.appendChild(body);
+        item.appendChild(del);
+        list.appendChild(item);
+      });
+    }
+
+    statTotal.textContent = tasks.length;
+    statDone.textContent = tasks.filter(t => t.done).length;
+    statPending.textContent = tasks.filter(t => !t.done).length;
+  }
+
+  render();
+}
+
+/* ---------------------------------------------------------
+   Contact form validation
+   --------------------------------------------------------- */
+function initContactForm() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  const successBanner = document.getElementById('successBanner');
+
+  const fields = {
+    name: document.getElementById('name'),
+    email: document.getElementById('email'),
+    phone: document.getElementById('phone'),
+    message: document.getElementById('message')
+  };
+
+  function setError(fieldName, message) {
+    const group = document.getElementById('group-' + fieldName);
+    const errorEl = document.getElementById('error-' + fieldName);
+    if (message) {
+      group.classList.add('invalid');
+      errorEl.textContent = message;
+    } else {
+      group.classList.remove('invalid');
+      errorEl.textContent = '';
+    }
+  }
+
+  function validateName() {
+    const value = fields.name.value.trim();
+    if (!value) return setError('name', 'Please enter your name.'), false;
+    setError('name', '');
+    return true;
+  }
+
+  function validateEmail() {
+    const value = fields.email.value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!value) return setError('email', 'Please enter your email address.'), false;
+    if (!emailPattern.test(value)) return setError('email', 'Please enter a valid email address.'), false;
+    setError('email', '');
+    return true;
+  }
+
+  function validatePhone() {
+    const value = fields.phone.value.trim();
+    const digitsOnly = /^[0-9]+$/;
+    if (!value) return setError('phone', 'Please enter your phone number.'), false;
+    if (!digitsOnly.test(value)) return setError('phone', 'Phone number should contain digits only.'), false;
+    if (value.length < 7) return setError('phone', 'Phone number looks too short.'), false;
+    setError('phone', '');
+    return true;
+  }
+
+  function validateMessage() {
+    const value = fields.message.value.trim();
+    if (!value) return setError('message', 'Please write a message.'), false;
+    if (value.length < 10) return setError('message', 'Message should be at least 10 characters.'), false;
+    setError('message', '');
+    return true;
+  }
+
+  fields.name.addEventListener('blur', validateName);
+  fields.email.addEventListener('blur', validateEmail);
+  fields.phone.addEventListener('blur', validatePhone);
+  fields.message.addEventListener('blur', validateMessage);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    successBanner.classList.remove('show');
+
+    const validName = validateName();
+    const validEmail = validateEmail();
+    const validPhone = validatePhone();
+    const validMessage = validateMessage();
+
+    if (validName && validEmail && validPhone && validMessage) {
+      successBanner.classList.add('show');
+      form.reset();
+      Object.keys(fields).forEach(key => setError(key, ''));
+    }
+  });
+}
